@@ -1,0 +1,10 @@
+{
+    "java.project.sourcePaths": [
+        "CH14-Generics/Ex4",
+        "CH14-Generics/Ex1",
+        "CH14-Generics/Ex10",
+        "CH14-Generics/Ex11",
+        "CH14-Generics/Ex12",
+        "CH14-Generics/Ex13"
+    ]
+}
