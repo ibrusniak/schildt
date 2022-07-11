@@ -17,6 +17,7 @@ public class CollectionDemo1 {
                 switch (n) {
                     case 1: showDemo1();
                     case 2: showDemo2();
+                    case 3: showDemo3();
                 }
             } catch (Exception e) {
                 printUsage();
@@ -122,6 +123,43 @@ public class CollectionDemo1 {
         
         c1.add("Strign 4");
         log("c1.size(): " + c1.size());
+    }
+
+    private static void showDemo3() {
+
+        log("Another features of the Collection interface.");
+        
+        Collection<Integer> c1 = new ArrayList<>();
+
+        c1.add(1); c1.add(2); c1.add(3);
+        log(c1);
+        c1.remove(2);
+        log(c1);
+        c1.add(4); c1.add(5); c1.add(6);
+        log(c1);
+
+        Collection<Integer> c2 = new ArrayList<>();
+        c2.add(10); c2.add(1); c2.add(6);
+        emptyLine();
+        log(c1);
+        log(c2);
+        log("c1.removeAll(Collection<?> c) operation");
+        c1.removeAll(c2);
+        log(c1);
+        
+        emptyLine();
+        c1.addAll(c2);
+        log(c1);
+        c1.removeIf(x -> x > 5);
+        log("c1.removeIf(x -> x > 5) operation");
+        log(c1);
+        
+        emptyLine();
+        log(c1);
+        log(c2);
+        log("c1.retainAll(c2)");
+        c1.retainAll(c2);
+        log(c1);
     }
 
     private static void emptyLine() {
