@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * CollectionInterfaceMethods1. Demonstrates all methods
@@ -72,6 +73,59 @@ public class CollectionDemo1 {
 
     private static void showDemo2() {
 
+        log("Checking if collection contains data");
+        
+        Collection<String> c1 = new LinkedList<>();
+        Collection<String> c2 = new LinkedList<>();
+
+        String str1 = "String 1";
+        String str2 = "String 2";
+        String str3 = "String 3";
+
+        c1.add(str1);
+        c1.add(str2);
+
+        c2.addAll(c1);
+
+        c1.add(str3);
+
+        log(c1);
+        log(c2);
+
+        log("c1 contains str1? " + c1.contains(str1));
+        log("c1 contains str2? " + c1.contains(str2));
+        log("c2 contains str3? " + c2.contains(str3));
+
+        log("c1 contains c2? " + c1.containsAll(c2));
+        log("c2 contains c1? " + c2.containsAll(c1));
+
+        log("c1 equals c2? " + c1.equals(c2));
+        log("c1 equals c2? " + c1.equals(c1));
+        
+        Collection c3 = c1;
+        log("c3 equals c1? " + c3.equals(c1));
+        
+        emptyLine();
+
+        log("c3.hashCode(): " + c3.hashCode());
+        c3.clear();
+        log("c3.hashCode(): " + c3.hashCode());
+        c2.clear();
+        log("c2.hashCode(): " + c2.hashCode());
+
+        // "equals" compares elements of two collections
+        log("c3.equals(c2): " + c3.equals(c2));
+
+        log("c1.size(): " + c1.size());
+        log("c2.size(): " + c2.size());
+        log("c3.size(): " + c3.size());
+        
+        c1.add("Strign 4");
+        log("c1.size(): " + c1.size());
+    }
+
+    private static void emptyLine() {
+        System.out.println();
     }
 
     private static <T> void log(T v) {
