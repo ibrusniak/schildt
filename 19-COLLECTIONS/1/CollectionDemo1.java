@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.stream.Stream;
 
 /**
  * CollectionInterfaceMethods1. Demonstrates all methods
@@ -18,6 +20,7 @@ public class CollectionDemo1 {
                     case 1: showDemo1();
                     case 2: showDemo2();
                     case 3: showDemo3();
+                    case 4: showDemo4();
                 }
             } catch (Exception e) {
                 printUsage();
@@ -160,6 +163,28 @@ public class CollectionDemo1 {
         log("c1.retainAll(c2)");
         c1.retainAll(c2);
         log(c1);
+    }
+
+    private static void showDemo4() {
+
+        log("Another features of the Collection interface.");
+        
+        Collection<Integer> intCollection = new ArrayList<>();
+        Collections.addAll(intCollection, 1, 2, 3, 4, 5, 6, 7, 8);
+        Stream<Integer> stream = intCollection.stream();
+        stream.forEachOrdered(x->log(x));
+
+        Object[] objArray = intCollection.toArray();
+        emptyLine();
+        for (Object obj : objArray) {
+            System.out.print(obj + " ");
+        }
+        emptyLine();
+        Integer[] intArray = intCollection.toArray(x -> new Integer[]{x});
+        for (Integer i : intArray) {
+            System.out.print(i + " ");
+        }
+        emptyLine();
     }
 
     private static void emptyLine() {
