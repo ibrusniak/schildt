@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>properties</comment>
+<entry key="java.specification.version">18</entry>
+<entry key="sun.cpu.isalist">amd64</entry>
+<entry key="sun.jnu.encoding">Cp1252</entry>
+<entry key="java.class.path">.</entry>
+<entry key="java.vm.vendor">Oracle Corporation</entry>
+<entry key="sun.arch.data.model">64</entry>
+<entry key="user.variant"></entry>
+<entry key="java.vendor.url">https://java.oracle.com/</entry>
+<entry key="java.vm.specification.version">18</entry>
+<entry key="os.name">Windows 10</entry>
+<entry key="sun.java.launcher">SUN_STANDARD</entry>
+<entry key="user.country">US</entry>
+<entry key="sun.boot.library.path">C:\Program Files\Java\jdk-18\bin</entry>
+<entry key="sun.java.command">jdk.compiler/com.sun.tools.javac.launcher.Main PropertiesDemo0.java</entry>
+<entry key="jdk.debug">release</entry>
+<entry key="sun.cpu.endian">little</entry>
+<entry key="user.home">C:\Users\ibrusniak</entry>
+<entry key="user.language">en</entry>
+<entry key="java.specification.vendor">Oracle Corporation</entry>
+<entry key="java.version.date">2022-03-22</entry>
+<entry key="java.home">C:\Program Files\Java\jdk-18</entry>
+<entry key="file.separator">\</entry>
+<entry key="java.vm.compressedOopsMode">Zero based</entry>
+<entry key="line.separator">
+</entry>
+<entry key="java.vm.specification.vendor">Oracle Corporation</entry>
+<entry key="java.specification.name">Java Platform API Specification</entry>
+<entry key="jdk.module.main.class">com.sun.tools.javac.launcher.Main</entry>
+<entry key="user.script"></entry>
+<entry key="sun.management.compiler">HotSpot 64-Bit Tiered Compilers</entry>
+<entry key="java.runtime.version">18+36-2087</entry>
+<entry key="user.name">ibrusniak</entry>
+<entry key="jdk.launcher.sourcefile">D:\java\java-schildt\19-COLLECTIONS\16\PropertiesDemo0.java</entry>
+<entry key="path.separator">;</entry>
+<entry key="os.version">10.0</entry>
+<entry key="java.runtime.name">Java(TM) SE Runtime Environment</entry>
+<entry key="file.encoding">UTF-8</entry>
+<entry key="java.vm.name">Java HotSpot(TM) 64-Bit Server VM</entry>
+<entry key="java.vendor.url.bug">https://bugreport.java.com/bugreport/</entry>
+<entry key="java.io.tmpdir">C:\Users\IBRUSN~1\AppData\Local\Temp\</entry>
+<entry key="java.version">18</entry>
+<entry key="user.dir">D:\java\java-schildt\19-COLLECTIONS\16</entry>
+<entry key="os.arch">amd64</entry>
+<entry key="java.vm.specification.name">Java Virtual Machine Specification</entry>
+<entry key="sun.os.patch.level"></entry>
+<entry key="native.encoding">Cp1252</entry>
+<entry key="java.library.path">C:\Program Files\Java\jdk-18\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Users\ibrusniak\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\ibrusniak\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files\Git\cmd;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\ibrusniak\AppData\Local\Microsoft\WindowsApps;C:\Users\ibrusniak\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Java\jdk-18\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl;.</entry>
+<entry key="java.vm.info">mixed mode, sharing</entry>
+<entry key="java.vendor">Oracle Corporation</entry>
+<entry key="java.vm.version">18+36-2087</entry>
+<entry key="sun.io.unicode.encoding">UnicodeLittle</entry>
+<entry key="java.class.version">62.0</entry>
+</properties>
