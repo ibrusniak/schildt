@@ -25,6 +25,12 @@ public class CurrencyDemo0 {
                 + " " + c.getSymbol()
                 + " " + c.getSymbol(Locale.FRANCE)
             ));
+        
+        System.out.println("\n");
+
+        Currency germanCurrency = Currency.getInstance(Locale.GERMANY);
+        System.out.println(germanCurrency.getSymbol());
+        System.out.println(germanCurrency.getDefaultFractionDigits());
     }
 }
 
