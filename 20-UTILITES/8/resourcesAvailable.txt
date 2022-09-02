@@ -1,0 +1,4 @@
+Locale en-US, resource This is banner
+Locale de, resource Das ist Banner
+Locale ru, resource Это баннер
+Locale uk, resource Це банер
