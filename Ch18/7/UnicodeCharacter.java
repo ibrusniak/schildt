@@ -1,5 +1,3 @@
-import javax.swing.plaf.synth.SynthButtonUI;
-
 public class UnicodeCharacter {
     private static final String USAGE = """
 

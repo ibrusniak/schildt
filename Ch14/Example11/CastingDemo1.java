@@ -1,8 +1,3 @@
-import javax.imageio.plugins.tiff.GeoTIFFTagSet;
-
-/**
- * CastingDemo1
- */
 public class CastingDemo1 {
 
     public static void main(String[] args) {

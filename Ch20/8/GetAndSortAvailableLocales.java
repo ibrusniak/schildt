@@ -6,8 +6,6 @@ import java.util.Comparator;
 import java.util.TreeSet;
 import java.util.Locale;
 
-import javax.swing.text.html.FormSubmitEvent;
-
 public class GetAndSortAvailableLocales {
     
     public static void main(String[] args) {

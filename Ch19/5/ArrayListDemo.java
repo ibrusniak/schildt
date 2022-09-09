@@ -1,8 +1,6 @@
 import java.util.AbstractList;
 import java.util.List;
 
-import javax.swing.plaf.basic.BasicInternalFrameUI.InternalFramePropertyChangeListener;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Arrays;
