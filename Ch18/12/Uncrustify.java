@@ -121,7 +121,7 @@ public class Uncrustify {
 
         in.close();
         ps.close();
-}
+    }
 
     private static String getTargetFileName(String sourceFileName) {
         
