@@ -1,31 +1,40 @@
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.InputStreamReader;
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.io.StringReader;
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import java.io.File;
+import java.io.PrintStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.FileInputStream;
 
 public class Uncrustify {
 
+    private static final String PATTERN_FULL_STRING = ".*((\\._*[a-zA-Z0-9]+\\([^\\(\\)]*\\)){3,}).*";
+    private static final String PATTERN_EXCACTLY_STRING = "((\\._*[a-zA-Z0-9]+\\([^\\(\\)]*\\)))+";
+    private static final String ASCIIART = """
+
+            ██╗░░░██╗███╗░░██╗░█████╗░██████╗░██╗░░░██╗░██████╗████████╗██╗███████╗██╗░░░██╗
+            ██║░░░██║████╗░██║██╔══██╗██╔══██╗██║░░░██║██╔════╝╚══██╔══╝██║██╔════╝╚██╗░██╔╝
+            ██║░░░██║██╔██╗██║██║░░╚═╝██████╔╝██║░░░██║╚█████╗░░░░██║░░░██║█████╗░░░╚████╔╝░
+            ██║░░░██║██║╚████║██║░░██╗██╔══██╗██║░░░██║░╚═══██╗░░░██║░░░██║██╔══╝░░░░╚██╔╝░░
+            ╚██████╔╝██║░╚███║╚█████╔╝██║░░██║╚██████╔╝██████╔╝░░░██║░░░██║██║░░░░░░░░██║░░░
+            ░╚═════╝░╚═╝░░╚══╝░╚════╝░╚═╝░░╚═╝░╚═════╝░╚═════╝░░░░╚═╝░░░╚═╝╚═╝░░░░░░░░╚═╝░░░
+            """;
     private static final String BANNER = """
+
             Uncrustify - solves stackoverflow issue https://stackoverflow.com/questions/73685531
+            
             Finds all strings like 'b.add(1).add(1).add(2).add(3).add(4);'
             and uncrustify them like this:
                 b.add(1)
                  .add(2)
                  .add(3)
                  .add(4);
+            
+            NOTE! Uncrustify doesn't modify existing file! It creates new file int the same
+            directory instead.
+            
             """;
-
     private static final String USAGE = """
             Usage: java Uncrustify.java filename
             """;
@@ -33,127 +42,137 @@ public class Uncrustify {
     public static void main(String[] args) {
 
         PrintStream out = System.out;
-        
+
         if (args.length == 0) {
-            out.println(BANNER);
             out.println(USAGE);
             return;
         }
 
         String sourceFileName = args[0];
-        File copy = null;
+        File sourceFile = new File(sourceFileName);
+
+        if (!sourceFile.exists()) {
+            out.println("File '" + sourceFileName + "' does't exist!");
+            out.println(USAGE);
+            return;
+        }
+
+        if (!sourceFile.canRead()) {
+            out.println("Catn't read read file '" + sourceFileName + "' because of access rights!");
+            return;
+        }
+
+        if (sourceFile.length() == 0) {
+            out.println("File '" + sourceFileName + "' is empty!");
+            return;
+        }
+
+        if (!checIfFileCanBeUncrustified(sourceFile)) {
+            out.println("There is nothing to uncrustify in the file '" + sourceFileName + "'!");
+            return;
+        }
+
+        String targetFileName = getTargetFileName(sourceFileName);
+        File targetFile = new File(targetFileName);
 
         try {
-            copy = makeFileCopy(sourceFileName);
-            out.println("Copy of the file '" + sourceFileName
-                + "' has created with name '" + copy.getName() + "'");
+            uncrustify(sourceFile, targetFile);
         } catch (Exception e) {
-            out.println("Could't create copy of the file!");
+            out.println("Couldn't uncrustify file '" + sourceFileName + "'!");
             e.printStackTrace();
             return;
         }
 
-        try {
-            incrustify(copy);
-        } catch (Exception e) {
-            out.println("Could't incrustify the file!");
-            e.printStackTrace();
-        }
+        showAsciiArt();
+        out.println(BANNER);
+        out.println("All done!" + Character.toString(0x1F9D0));
     }
 
-    private static void incrustify(File file) throws Exception {
+    private static void uncrustify(File source, File target) throws Exception {
 
-        String fileName = file.getName();
+        BufferedReader in = null;
+        PrintStream ps = null;
 
-        if (!file.exists())
-            throw new FileNotFoundException(file.getName());
-            
-        if (file.length() == 0) {
-            throw new Exception("File is empty!");
-        }
+        in = new BufferedReader(new InputStreamReader(new FileInputStream(source)));
+        ps = new PrintStream(target);
+        String nextLine = "";
 
-        String newText = "";
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(file)))) {
-            
-            String nextLine = "";
-            String patternFullString = ".*((\\._*[a-zA-Z0-9]+\\([^\\(\\)]*\\)){3,}).*";
-            String patternExcactlyString = "((\\._*[a-zA-Z0-9]+\\([^\\(\\)]*\\)))+";
+        while ((nextLine = in.readLine()) != null) {
 
-            while ((nextLine = in.readLine()) != null) {
-
-                if (nextLine.matches(patternFullString)) {
-                    
-                    String excactly = nextLine;
-                    String[] strs = nextLine.split(patternExcactlyString);
-                    for (int i = 0; i < strs.length; i++) {
-                        excactly = excactly.replace(strs[i], "");
-                    }
-                    int spaceCount = nextLine.indexOf(excactly);
-                    String[] functions = excactly.substring(1).split("\\.");
-                    nextLine = strs[0];
-                    for (int i = 0; i < functions.length; i++) {
-                        nextLine += (i == 0) ? "." + functions[i]
-                            : "\n" + " ".repeat(spaceCount) + "." + functions[i];
-                    }
-                    if (strs.length >= 2)
-                        nextLine += strs[strs.length - 1];
+            if (nextLine.matches(PATTERN_FULL_STRING)) {
+                
+                String excactly = nextLine;
+                String[] strs = nextLine.split(PATTERN_EXCACTLY_STRING);
+                for (int i = 0; i < strs.length; i++) {
+                    excactly = excactly.replace(strs[i], "");
                 }
-                newText += nextLine + "\n";
+                int spaceCount = nextLine.indexOf(excactly);
+                String[] functions = excactly.substring(1).split("\\.");
+                nextLine = strs[0];
+                for (int i = 0; i < functions.length; i++) {
+                    nextLine += (i == 0) ? "." + functions[i]
+                        : "\n" + " ".repeat(spaceCount) + "." + functions[i];
+                }
+                if (strs.length >= 2)
+                    nextLine += strs[strs.length - 1];
             }
-        } catch (Exception e) {
-            throw e;
+            ps.println(nextLine);
         }
 
-        System.out.println("\n\n\n" + newText + "\n\n\n");
-    }
+        in.close();
+        ps.close();
+}
 
-    private static File makeFileCopy(String sourceFileName)
-        throws Exception {
-
-        File sourceFile = new File(sourceFileName);
-
-        if(!sourceFile.exists())
-            throw new FileNotFoundException("File '" + sourceFileName + "' not found!");
-
-        if(!sourceFile.canRead())
-            throw new Exception("Can't read file '" + sourceFileName + "'. Not enought access rights!");
-
-        String postfix = String.format("_copy_%07d",
-            new Random().nextInt(1000001));
+    private static String getTargetFileName(String sourceFileName) {
         
+        String postfix = String.format("_incrustified_%04d",
+            new Random().nextInt(1001));
+    
         int lastIndexOfDot = sourceFileName.lastIndexOf('.');
 
-        String workingFileName = lastIndexOfDot == -1
+        String targetFileName = lastIndexOfDot == -1
             ? sourceFileName + postfix
             : sourceFileName.substring(0, lastIndexOfDot)
                 + postfix + sourceFileName.substring(lastIndexOfDot, sourceFileName.length());
-        
-        File workingFile = new File(workingFileName);
-        
-        FileInputStream fin = null;
-        FileOutputStream fout = null;
 
-        try {
+        if (new File(targetFileName).exists())
+            return getTargetFileName(sourceFileName);
+        
+        return targetFileName;
+    }
+
+    private static void showAsciiArt() {
+
+        String[] parts = ASCIIART.split("\\n");
+
+        for (int i = 0; i < parts.length; i++) {
             
-            fin = new FileInputStream(sourceFile);
-            fout = new FileOutputStream(workingFile);
-
-            byte[] buffer = new byte[1];
-            while (fin.read(buffer) != -1) {
-                fout.write(buffer);
-            }
-        } catch (Exception e) {
-            throw e;
+            try {
+                Thread.sleep(100);
+            } catch (Exception e) {}
+            System.out.println(parts[i]);
         }
 
         try {
-            fin.close();
-            fout.close();
-        } catch (Exception e) {
-            throw e;
-        }
+            Thread.sleep(300);
+        } catch (Exception e) {}
+    }
 
-        return workingFile;
+    private static boolean checIfFileCanBeUncrustified(File source) {
+
+        boolean result = false;
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(source)))) {
+            
+            String nextLine = "";
+            while ((nextLine = in.readLine()) != null) {
+                if (nextLine.matches(PATTERN_FULL_STRING)) 
+                    result = true;
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }
 
