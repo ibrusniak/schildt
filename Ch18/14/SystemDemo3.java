@@ -12,6 +12,8 @@ public class SystemDemo3 {
         props.forEach(p ->
             ps.printf("%30s: %s%n",
                 p, System.getProperty(p)));
+        
+        ps.close();
     }
     
     private static List<String> getPropnames() {
