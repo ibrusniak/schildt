@@ -11,6 +11,10 @@ public class SystemDemo1 {
         System.out.print("\n".repeat(3));
         Properties props = System.getProperties();
         props.forEach((k, v) -> System.out.printf("{%s}:{%s}%n", k, v));
+        
+        System.out.print("\n".repeat(3));
+        System.out.println("CP '" + System.getProperty("java.class.path") + "'");
+        System.out.println("CWD '" + System.getProperty("user.dir") + "'");
     }
 }
 
