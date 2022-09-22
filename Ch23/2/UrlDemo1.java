@@ -2,8 +2,8 @@
 import java.net.URL;
 import java.net.MalformedURLException;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.BufferedInputStream;
 
 public class UrlDemo1 {
 
@@ -20,11 +20,8 @@ public class UrlDemo1 {
 
         debug(url);
 
-        try(InputStream in = url.openStream()) {
+        try(BufferedInputStream in = new BufferedInputStream(url.openStream())) {
 
-            debug(in.available());
-            in.transferTo(System.out); // This is great!!!
-            System.out.println();
         } catch (IOException e) {
             e.printStackTrace();
             return;
