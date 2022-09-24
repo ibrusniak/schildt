@@ -1,6 +1,7 @@
 
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.net.SocketTimeoutException;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -17,6 +18,7 @@ public class SocketTester3 {
     private static final String sendCommand = "write";
     private static final String msgDelimiter = "*".repeat(80);
     private static final long sleepTime = 10;
+    private static final int timeOut = 3000;
 
     public static void main(String[] args) throws Exception {
 
@@ -58,6 +60,7 @@ public class SocketTester3 {
                 InputStream inputStream = socket.getInputStream();
                 OutputStream outputStream = socket.getOutputStream();
             ) {
+                socket.setSoTimeout(timeOut);
                 linesToSend.clear();
                 linesToSend.add(s);
                 String nextLine = "";
@@ -79,13 +82,15 @@ public class SocketTester3 {
                 println("reading from socket...");
                 println();
 
-                int i = 0;
-                while((i = inputStream.read()) != -1) {
-                    try {
-                        Thread.currentThread().sleep(sleepTime);
-                    } catch (Exception e) {};
-                    print((char)i);
-                }
+                try {
+                    int i = 0;
+                    while((i = inputStream.read()) != -1) {
+                        try {
+                            Thread.currentThread().sleep(sleepTime);
+                        } catch (Exception e) {};
+                        print((char)i);
+                    }
+                } catch (SocketTimeoutException e) {}
                 println(msgDelimiter);
             } catch (Exception e) {
                 println("Exception!");
